@@ -1,6 +1,7 @@
 package clubmanager;
 
 public class Person {
+	
 	private String surName;
 	private String firstName;
 	private String secondName;
@@ -9,11 +10,9 @@ public class Person {
 		this.surName = surName;
 		this.firstName = firstName;
 		this.secondName = secondName;
-	}
-	
+	}	
 	public Person (String surName, String firstName) {
-		this.surName = surName;
-		this.firstName = firstName;
+		this(surName, firstName, null);
 	}
 	
 	
@@ -26,13 +25,20 @@ public class Person {
 	public String getSecondName() {
 		return secondName;
 	}
-
-
-	public void show () {
-		System.out.print("Hello, " + surName + " " + firstName);
-		if(secondName != null) {
-			System.out.print(" " + secondName);
-		}
-		System.out.println("!");
+	
+	public String toString() {
+		if (secondName == null) return surName + " " + firstName;
+		else return surName + " " + firstName + " " + secondName;
 	}
+	
+	public void show() {
+		System.out.println(this.toString());
+	}
+
+	/*public void show () {
+		System.out.print("Hello, " + surName + " " + firstName);
+		if(secondName != null) System.out.print(" " + secondName);
+		System.out.println("!");
+	}*/
+	
 }

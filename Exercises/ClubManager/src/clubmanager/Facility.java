@@ -1,6 +1,7 @@
 package clubmanager;
 
 public class Facility {
+	
 	private String name;
 	private String description;
 	
@@ -9,7 +10,7 @@ public class Facility {
 		this.description = description;
 	}
 	public Facility (String name)	{
-		this.name = name;
+		this(name, null);
 	}
 
 	public String getName() {
@@ -21,9 +22,7 @@ public class Facility {
 	
 	public void show() {
 		System.out.print("This facility is " + name);
-		if(description != null) {
-			System.out.print("(" + description + ")");
-		}
+		if(description != null) System.out.print("(" + description + ")");
 		System.out.println(".");
 	}
 	
