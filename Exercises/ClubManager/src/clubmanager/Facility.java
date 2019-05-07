@@ -20,10 +20,13 @@ public class Facility {
 		return description;
 	}
 	
+	public String toString() {
+		if(description == null) return name;
+		else return name + " (" + description + ")";
+	}
+	
 	public void show() {
-		System.out.print("This facility is " + name);
-		if(description != null) System.out.print("(" + description + ")");
-		System.out.println(".");
+		System.out.print(this.toString());
 	}
 	
 }

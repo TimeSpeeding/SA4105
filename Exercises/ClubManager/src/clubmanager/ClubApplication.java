@@ -3,6 +3,7 @@ package clubmanager;
 public class ClubApplication {
 
 	public static void main(String[] args) {
+		
 		Person p1 = new Person("Tan", "Ah", "Beng");
 		Person p2 = new Person("Stan", "Laurel");
 		Person p3 = new Person("Yeoh", "Khei", "Hong");
