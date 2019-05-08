@@ -21,7 +21,7 @@ public class Member extends Person{
 	}
 	
 	public String toString() {
-		return super.toString() + ", " + Integer.toString(memberNumber);
+		return Integer.toString(memberNumber) + ", " + super.toString();
 	}
 	
 }

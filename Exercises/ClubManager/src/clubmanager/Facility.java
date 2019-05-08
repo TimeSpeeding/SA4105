@@ -26,7 +26,7 @@ public class Facility {
 	}
 	
 	public void show() {
-		System.out.print(this.toString());
+		System.out.println(this.toString());
 	}
 	
 }
