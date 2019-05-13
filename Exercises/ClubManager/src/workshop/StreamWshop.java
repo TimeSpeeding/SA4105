@@ -76,5 +76,6 @@ public class StreamWshop {
 		// to display the highest salary among the staff
 		System.out.println("\n[Exercise 7: Reduce]");
 		System.out.println(staffList.stream().mapToDouble(x -> x.salary).reduce(0, (a, b) -> Double.max(a, b)));
+		staffList.stream().mapToDouble(x -> x.salary).reduce((a, b) -> (a > b) ? a : b).ifPresent(System.out::println);
 	}
 }
