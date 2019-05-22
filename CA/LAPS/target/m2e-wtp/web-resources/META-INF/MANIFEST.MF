@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: LAPS
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: TimeSpeeding
+Implementation-Vendor-Id: com.t13.dva
+Build-Jdk: 1.8.0_212
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/LAPS
+Created-By: Maven Integration for Eclipse
+
