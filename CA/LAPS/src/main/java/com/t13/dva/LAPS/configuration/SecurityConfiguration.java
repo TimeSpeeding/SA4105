@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.t13.dva.LAPS.util.LoginSuccessHandle;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -47,18 +49,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                	.antMatchers("/", "/login", "/registration").permitAll()
+                	.antMatchers("/", "/login", "/registration", "/hello").permitAll()
+                	.antMatchers("/admin/**").hasRole("ADMIN")
+                	.antMatchers("/staff/**").hasRole("STAFF")
+                	.antMatchers("/manager/**").hasRole("MANAGER")
                 	.anyRequest().authenticated()
                 	.and()
                 .formLogin()
                 	.loginPage("/login")
                 	.failureUrl("/login?error=true")
-                    .defaultSuccessUrl("/hello")
+                	.successHandler(new LoginSuccessHandle())
                     .usernameParameter("username")
                     .passwordParameter("password")
                 	.and()
                 .logout()
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login")
                 	.permitAll();
     }
 
