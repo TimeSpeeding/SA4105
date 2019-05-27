@@ -34,11 +34,14 @@ public class LoginController {
 	    User userExists = userService.findUserByUsername(user.getUsername());
 	    if (userExists != null) {
 	        bindingResult.rejectValue("username", "error.user", "* There is already a user registered with the username provided");
-	    }
-	    
+	    }	    
 	    if (bindingResult.hasErrors()) {
 	        return "registration";
 	    } else {
+	    	user.setMedicalleaveday(60);
+	    	if(user.getRoleid() == 1) {
+	    		user.setAnnualleaveday(14);
+	    	} else user.setAnnualleaveday(18);
 	        userService.saveUser(user);
 	        request.setAttribute("successMessage", "User has been registered successfully");
 	        model.addAttribute("user", new User());

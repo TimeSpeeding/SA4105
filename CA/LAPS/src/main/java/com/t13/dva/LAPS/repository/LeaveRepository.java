@@ -13,7 +13,6 @@ import com.t13.dva.LAPS.model.Leave;
 public interface LeaveRepository extends JpaRepository<Leave, Integer> {
 	
 	Page<Leave> findByUserid(Pageable pageable, int userid);
-
 	List<Leave> findByUserid(int userid);
 
 }

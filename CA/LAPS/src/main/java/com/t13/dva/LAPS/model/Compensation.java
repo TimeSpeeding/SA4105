@@ -22,7 +22,5 @@ public class Compensation {
 	private String status;
 	@Column(name = "user_id")
 	private int userid;
-	
-
-	
+		
 }

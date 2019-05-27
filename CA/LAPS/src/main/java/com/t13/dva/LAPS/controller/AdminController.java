@@ -49,8 +49,7 @@ public class AdminController {
 	    User userExists = userService.findUserByUsername(user.getUsername());
 	    if (userExists != null) {
 	        bindingResult.rejectValue("username", "error.user", "* There is already a user registered with the username provided");
-	    }
-	    
+	    }	    
 	    if (bindingResult.hasErrors()) {
 	        return "admin/create";
 	    } else {

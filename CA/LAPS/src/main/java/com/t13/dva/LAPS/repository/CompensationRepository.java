@@ -13,8 +13,6 @@ import com.t13.dva.LAPS.model.Compensation;
 public interface CompensationRepository extends JpaRepository<Compensation, Integer> {
 
 	Page<Compensation> findByUserid(Pageable pageable, int userid);
-
 	List<Compensation> findByUserid(int userid);
-
 	
 }

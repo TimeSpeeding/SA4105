@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.t13.dva.LAPS.model.Leave;
@@ -19,8 +20,7 @@ import com.t13.dva.LAPS.repository.LeaveRepository;
 public class LeaveServiceImp implements LeaveService{
 
 	@Resource
-	private LeaveRepository leaveRepository;
-	
+	private LeaveRepository leaveRepository;	
 	@Autowired
 	private UserService userService;
 	
@@ -40,6 +40,10 @@ public class LeaveServiceImp implements LeaveService{
 	
 	public List<Leave> findLeavesByUserid (int userid) {
 		return leaveRepository.findByUserid(userid);
+	}
+	
+	public List<Leave> findAllLeaves(Sort sort) {
+		return leaveRepository.findAll(sort);
 	}
 
 	public void saveLeave(Leave leave) {

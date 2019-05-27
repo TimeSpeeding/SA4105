@@ -9,12 +9,17 @@
 </head>
 
 <body>
-	<nav>
-		<div class="nav-wrapper">
-			<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>
-			<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
-		</div>
+	<<nav>
+		<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
+		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
+	
+	<ul class="nav nav-pills">
+		<li><a href="/employee/create"> Create New Leave </a></li>
+		<li><a href="/employee/leavedetail"> My Leave List </a></li>
+		<li><a href="/employee/claim"> Claim New Compensation </a></li>
+		<li><a href="/employee/compensations"> My Compensation List </a></li>
+	</ul>
 
 	<div class="container">
 		<h3 align="center">View Compensation Leave</h3>

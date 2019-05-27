@@ -11,7 +11,6 @@ import com.t13.dva.LAPS.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	User findByUsername(String username);
-
 	List<User> findByManagerid(int managerid);
 
 }

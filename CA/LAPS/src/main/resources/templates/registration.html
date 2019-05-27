@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
-	  
+	xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <title>Registration Form</title>
 <link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
@@ -11,78 +11,95 @@
 <body>
 
 	<nav>
-		<div class="nav-wrapper">
-			<p class="brand-logo">Welcome To ISS Leave Portal</p>
-		</div>
+
+		<p class="brand-logo">Welcome To ISS Leave Portal</p>
+
 	</nav>
 
-	<form th:action="@{/registration}" th:object="${user}" method="post" class="form-horizontal" role="form">
-		<div class="container" align="center">
-			<h3>Registration Form</h3>
-			<div>
-				<table class="row">
+	<div class="container" align="center">
+		<h3>Registration Form</h3>
+
+		<form class="form-horizontal" th:action="@{/registration}" th:object="${user}" method="post">
+			<div class="container">
+
+				<table class="form-group">
 					<tr>
-						<td><span th:text="Name："></span></td>
-						<td><input type="text" th:field="*{name}"/></td>
+						<td><span th:text="Name：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{name}" class="col-sm-9" /></td>
 					</tr>
 					<tr th:if="${#fields.hasErrors('name')}">
 						<td></td>
-						<td><p th:errors="*{name}" class="validation-message" /></td>
+						<td><p style="color: #FF1C19" th:errors="*{name}"
+								class="validation-message" /></td>
 					</tr>
 
 					<tr>
-						<td><span th:text="Email："></span></td>
-						<td><input type="text" th:field="*{email}"/></td>
+						<td><span th:text="Email：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{email}" class="col-sm-9" /></td>
 					</tr>
 					<tr th:if="${#fields.hasErrors('email')}">
 						<td></td>
-						<td><p th:errors="*{email}" class="validation-message" /></td>
+						<td><p style="color: #FF1C19" th:errors="*{email}"
+								class="validation-message" /></td>
 					</tr>
 
 					<tr>
-						<td><span th:text="Username："></span></td>
-						<td><input type="text" th:field="*{username}"/></td>
+						<td><span th:text="Username：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{username}"
+							class="col-sm-9" /></td>
 					</tr>
 					<tr th:if="${#fields.hasErrors('username')}">
 						<td></td>
-						<td><p th:errors="*{username}" class="validation-message" /></td>
+						<td><p style="color: #FF1C19" th:errors="*{username}"
+								class="validation-message" /></td>
 					</tr>
 
 					<tr>
-						<td><span th:text="Password："></span></td>
-						<td><input type="password" th:field="*{password}" /></td>
+						<td><span th:text="Password：" class="col-sm-3 control-label"></span></td>
+						<td><input type="password" th:field="*{password}"
+							class="col-sm-9" /></td>
 					</tr>
-					<tr th:if="${#fields.hasErrors('password')}">
+					<tr>
 						<td></td>
-						<td><p th:errors="*{password}" class="validation-message" /></td>
+						<td th:if="${#fields.hasErrors('password')}">
+							<p style="color: #FF1C19" th:errors="*{password}"
+								class="validation-message" />
+						</td>
 					</tr>
 
 					<tr>
-						<td><span th:text="'Manager ID：'"></span></td>
-						<td><input type="text" th:field="*{managerid}" /></td>
+						<td><span th:text="'Manager ID：'"
+							class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{managerid}"
+							class="col-sm-9" /></td>
 					</tr>
-					<tr th:if="${#fields.hasErrors('managerid')}">
+					<tr>
 						<td></td>
-						<td><p th:errors="*{managerid}" class="validation-message" /></td>
+						<td th:if="${#fields.hasErrors('managerid')}">
+							<p style="color: #FF1C19" th:errors="*{managerid}"
+								class="validation-message" />
+						</td>
 					</tr>
 
 					<tr>
-						<td><span th:text="Role："></span></td>
-						<td><select th:field="*{roleid}">
+						<td><span th:text="Role：" class="col-sm-3 control-label"></span></td>
+						<td><select th:field="*{roleid}" class="col-sm-9">
 								<option value="1">Administrator</option>
 								<option value="2">Manager</option>
 								<option value="3">Employee</option>
 						</select></td>
+						<td></td>
 					</tr>
 
 				</table>
 				<br />
 			</div>
 			<button type="submit" class="btn btn-md btn-primary">Register User</button>
-			
-			<p th:utext="${successMessage}"></p>
-		</div>
-	</form>
+		</form>
+
+		<span th:utext="${successMessage}"></span>
+	</div>
+
 
 
 </body>

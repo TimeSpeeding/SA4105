@@ -17,8 +17,7 @@ import com.t13.dva.LAPS.repository.UserRepository;
 public class UserServiceImp implements UserService{
 	
 	@Resource
-	private UserRepository userRepository;
-	
+	private UserRepository userRepository;	
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired

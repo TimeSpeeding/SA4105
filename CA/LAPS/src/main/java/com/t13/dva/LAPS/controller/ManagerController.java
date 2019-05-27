@@ -1,17 +1,24 @@
 package com.t13.dva.LAPS.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.t13.dva.LAPS.model.CommentView;
 import com.t13.dva.LAPS.model.Compensation;
 import com.t13.dva.LAPS.model.Leave;
@@ -121,5 +128,21 @@ public class ManagerController {
 		compensationService.saveCompensation(compensation);
 		return "redirect:/manager/subcompensation";
 	}
+	
+	@GetMapping("/manager/export")
+    public void exportCSV(HttpServletResponse response) throws Exception {
+        //set file name and content type
+        String filename = "LeaveList.csv";
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+        //create a csv writer
+        StatefulBeanToCsv<Leave> writer = new StatefulBeanToCsvBuilder<Leave>(response.getWriter())
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .withOrderedResults(false)
+                .build();
+        //write all leavelist to csv file
+        writer.write(leaveService.findAllLeaves(new Sort(Sort.Direction.DESC, "id")));
+    }
 	
 }

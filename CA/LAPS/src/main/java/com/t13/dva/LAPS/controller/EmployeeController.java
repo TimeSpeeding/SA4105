@@ -19,6 +19,7 @@ import com.t13.dva.LAPS.model.LeaveView;
 import com.t13.dva.LAPS.model.User;
 import com.t13.dva.LAPS.service.CompensationService;
 import com.t13.dva.LAPS.service.LeaveService;
+import com.t13.dva.LAPS.service.MailingService;
 import com.t13.dva.LAPS.service.UserService;
 import com.t13.dva.LAPS.util.CalculateWorkDays;
 
@@ -26,23 +27,21 @@ import com.t13.dva.LAPS.util.CalculateWorkDays;
 public class EmployeeController {
 	
 	@Autowired
-	private LeaveService leaveService;
-	
+	private LeaveService leaveService;	
 	@Autowired
 	private UserService userService;
-	
+    @Autowired
+	private MailingService mailingService;	
 	@Autowired
 	private CompensationService compensationService;
 
-
 	private CalculateWorkDays calculateWorkDays = new CalculateWorkDays();
-	
-
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	
+	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");	
 
 	@RequestMapping(value = "/employee/home", method = RequestMethod.GET)
-	public String homePage(HttpServletRequest request) {
+	public String homePage(HttpServletRequest request, Model model) {
+		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+		model.addAttribute("user", user);
 		return "employee/home";
 	}
 	
@@ -75,9 +74,11 @@ public class EmployeeController {
 			leave.setContactDetail(leaveView.getContactDetail());
 			leave.setReason(leaveView.getReason());
 			leave.setWorkdis(leaveView.getWorkdis());
-			leave.setUserid(userService.findUserByUsername(request.getUserPrincipal().getName()).getId());
+			User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+			leave.setUserid(user.getId());
 			leave.setStatus("Applied");
 			leaveService.saveLeave(leave);
+			mailingService.sendNotification(user.getEmail());
 	        request.setAttribute("successMessage", "Leave has been applied successfully");
 	        model.addAttribute("leaveView", new LeaveView());
 			return "employee/create";
@@ -138,8 +139,7 @@ public class EmployeeController {
 			leaveService.saveLeave(leave);
 			return "redirect:/employee/leavedetail";
 		}
-	}
-	
+	}	
 
 	@RequestMapping(path = "/employee/delete/{id}", method = RequestMethod.POST)
 	public String deleteLeave (@PathVariable(value = "id") int id) {
@@ -174,7 +174,6 @@ public class EmployeeController {
 	
 	@RequestMapping(path = "/employee/claim", method = RequestMethod.POST)
 	public String createNewCompensation (@Validated Compensation compensation, BindingResult bindingResult, Model model, HttpServletRequest request) {
-		
 		if (bindingResult.hasErrors()) {
 			return "employee/claim";
 		} else {
@@ -188,11 +187,8 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(path = "/employee/compensations", method = RequestMethod.GET)
-	public String compensationPage (HttpServletRequest request, Model model) {
-		
-		int page = 0;
-		int size = 5;
-		
+	public String compensationPage (HttpServletRequest request, Model model) {		
+		int page = 0;int size = 5;		
 		if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
 			page = Integer.parseInt(request.getParameter("page")) - 1;
 		}		
@@ -202,7 +198,6 @@ public class EmployeeController {
 		int userid = userService.findUserByUsername(request.getUserPrincipal().getName()).getId();
 		model.addAttribute("compensations", compensationService.findCompensationsByUserid(PageRequest.of(page, size), userid));
 		return "employee/compensations";
-
-}
+	}
 	
 }

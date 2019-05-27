@@ -1,22 +1,38 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Hello World!</title>
-    </head>
-    <body>
-        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-        
-        <form th:action="@{/manager/subleave}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Subleave List</button>
-	</form>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Manager Home</title>
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+	<nav>
+		<span class="brand-logo">Hello Manager [[${#httpServletRequest.remoteUser}]]!</span>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
+	</nav>
+
+	<ul class="nav nav-pills">
+		<li><a href="/manager/subleave"> Subordinate Leave List </a></li>
+		<li><a href="/manager/subcompensation"> Subordinate Compensation Leave List </a></li>
+		<li><a href="/manager/export"> Export </a></li>
+	</ul>
 	
-	<form th:action="@{/manager/subcompensation}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Subcom List</button>
-	</form>
+	<h3></h3>
+	<div class="container">
+
+		<h4 class="control-label">Remaining Annual Leave Days is: [[${user.annualleaveday}]]</h4>
+		<h4 class="control-label">Remaining Medical Leave Days is: [[${user.medicalleaveday}]]</h4>
+		<h4 class="control-label">Remaining Compensation Leave Times is: [[${user.overworkhour / 4}]]</h4>
+
+	</div>
+	<h3></h3>
 	
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="注销"/>
-        </form>
-    </body>
+
+	 
+</body>
+
+
 </html>

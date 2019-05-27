@@ -1,63 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-<title>Compensation List</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Manager Home</title>
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
+<body>
+	<nav>
+		<span class="brand-logo">Hello Manager [[${#httpServletRequest.remoteUser}]]!</span>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
+	</nav>
 
-<div class="container">
-<div>
-	<table class="table table-striped">
-		<tr>
-			<th>Compensation ID</th>
-			<th>Compensation Date</th>
-			<th>Overtime Work Hour</th>
-			<th>Overtime Work Reason</th>
-			<th>Compensation Status</th>
-			<th>Action</th>
-		</tr>
-		<tr th:each="cp : ${(compensations)}">
-			<td th:text="${cp.id}">Compensation ID</td>
-			<td th:text="${cp.date}">Compensation Date</td>
-			<td th:text="${cp.hour}">Overtime Work Hour</td>
-			<td th:text="${cp.reason}">Created</td>
-			<td th:text="${cp.status}">Status</td>
-			<td>
-				<form th:action="${'/manager/approvecom/' + cp.id}" method="post">
-					<button class="btn btn-md btn-warning btn-block" type="Submit">Approve</button>
-				</form>
-				<form th:action="${'/manager/rejectcom/' + cp.id}" method="post">
-					<button class="btn btn-md btn-warning btn-block" type="Submit">Reject</button>
-				</form>
-			</td>
-		</tr>
+	<ul class="nav nav-pills">
 
-	</table>
-</div>
-</div>
+		<li><a href="/manager/subleave"> Subordinate Leave List </a></li>
+		<li><a href="/manager/subcompensation"> Subordinate	Compensation Leave List </a></li>
+		<li><a href="/manager/export"> Export </a></li>
+	</ul>
 
-<nav aria-label="Pagination" th:if="${compensations.totalPages gt 0}">
-    <ul class="pagination justify-content-center font-weight-bold">
-        <li class="page-item" th:classappend="${compensations.number eq 0} ? 'disabled'">
-            <a class="page-link"
-               th:href="@{/manager/subcompensation?page={id}(id=${compensations.number lt 2 ? 1 : compensations.number})}"
-               aria-label="Previous" title="Previous Page" data-toggle="tooltip">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item" th:classappend="${i eq compensations.number + 1} ? 'active'"
-            th:each="i : ${#numbers.sequence( 1, compensations.totalPages, 1)}">
-            <a class="page-link" th:href="@{/manager/subcompensation?page={id}(id=${i})}" th:text="${i}"
-               th:title="${'Page '+ i}" data-toggle="tooltip"></a>
-        </li>
-        <li class="page-item" th:classappend="${compensations.number + 1 eq compensations.totalPages} ? 'disabled'">
-            <a class="page-link"
-               th:href="@{/manager/subcompensation?page={id}(id=${compensations.number + 2})}"
-               aria-label="Next" title="Next Page" data-toggle="tooltip">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+	<div class="container">
+		<div>
+			<table class="table table-striped">
+				<tr>
+					<th>Compensation ID</th>
+					<th>Compensation Date</th>
+					<th>Overtime Work Hour</th>
+					<th>Overtime Work Reason</th>
+					<th>Compensation Status</th>
+					<th>Action</th>
+				</tr>
+				<tr th:each="cp : ${(compensations)}">
+					<td th:text="${cp.id}">Compensation ID</td>
+					<td th:text="${cp.date}">Compensation Date</td>
+					<td th:text="${cp.hour}">Overtime Work Hour</td>
+					<td th:text="${cp.reason}">Created</td>
+					<td th:text="${cp.status}">Status</td>
+					<td>
+						<form th:action="${'/manager/approvecom/' + cp.id}" method="post">
+							<button class="btn btn-md btn-warning btn-block" type="Submit">Approve</button>
+						</form>
+						<form th:action="${'/manager/rejectcom/' + cp.id}" method="post">
+							<button class="btn btn-md btn-danger btn-block" type="Submit">Reject</button>
+						</form>
+					</td>
+				</tr>
 
+			</table>
+		</div>
+	</div>
+	<div align="center">
+
+		<form aria-label="Pagination" th:if="${compensations.totalPages gt 0}">
+			<ul class="pagination justify-content-center font-weight-bold">
+				<li class="page-item"
+					th:classappend="${compensations.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/manager/subcompensation?page={id}(id=${compensations.number lt 2 ? 1 : compensations.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq compensations.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, compensations.totalPages, 1)}">
+					<a class="page-link"
+					th:href="@{/manager/subcompensation?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${compensations.number + 1 eq compensations.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/manager/subcompensation?page={id}(id=${compensations.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</form>
+	</div>
 </body>
 </html>

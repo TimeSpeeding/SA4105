@@ -9,11 +9,14 @@
 
 <body>
 	<nav>
-		<div class="nav-wrapper">
-			<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>
-			<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>		
-		</div>
+		<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>				
+		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
+	
+	<ul class="nav nav-pills">
+		<li><a href="/admin/create"> Create New User </a></li>
+		<li><a href="/admin/userdetail"> User List </a></li>
+	</ul>
 	
 	<div class="container">
 

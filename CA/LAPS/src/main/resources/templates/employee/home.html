@@ -6,44 +6,30 @@
 <head>
 <title>Employee Home</title>
 <link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
-<style>
-td{
-  background:#ccffff;
-  height:50%;
-  width:50%;
-}
-table {
-  border-spacing: 30px;
-  border: 1px;
-  align:center;
-  text-align:center;
-  height:800px;
-  width:94%;
-}
-a {
-  font-size:40px;
-}
-</style>
 </head>
 
 <body>
 	<nav>
-		<div class="nav-wrapper">
-			<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
-			<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
-		</div>
+		<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
+		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
-	<table  >
-		<tr>
-			<td><a href="/employee/create">Create New Leave</a></td>
-			<td><a href="/employee/leavedetail">View Leave List</a></td>		
-		</tr>
-		<tr>
-			<td><a href="/employee/claim">Claim New Compensation</a></td>
-			<td><a href="/employee/compensations">View Compensation Leave</a></td>
-		</tr>	
-	</table>
+	<ul class="nav nav-pills">
+		<li><a href="/employee/create"> Create New Leave </a></li>
+		<li><a href="/employee/leavedetail"> My Leave List </a></li>
+		<li><a href="/employee/claim"> Claim New Compensation </a></li>
+		<li><a href="/employee/compensations"> My Compensation List </a></li>
+	</ul>
+	
+	<h3></h3>
+	<div class="container">
+
+		<h4 class="control-label">Remaining Annual Leave Days is: [[${user.annualleaveday}]]</h4>
+		<h4 class="control-label">Remaining Medical Leave Days is: [[${user.medicalleaveday}]]</h4>
+		<h4 class="control-label">Remaining Compensation Leave Times is: [[${user.overworkhour / 4}]]</h4>
+
+	</div>
+	<h3></h3>
 	
 </body>
 </html>
