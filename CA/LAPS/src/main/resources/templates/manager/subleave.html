@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Sub Leave</title>
+</head>
+
+<body>
+
+		<form th:action="@{/manager/home}" method="get">
+			<button class="btn btn-md btn-warning btn-block" type="Submit">Back</button>
+		</form>	
+		
+<div class="container">
+<div>
+	<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Category</th>
+			<th>Reason</th>
+			<th>Contact Details</th>
+			<th>Work Dissemination</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="lv : ${(leaves)}">
+			<td th:text="${lv.id}">ID</td>
+			<td th:text="${lv.startDate}">Start Date</td>
+			<td th:text="${lv.endDate}">End Date</td>
+			<td th:text="${lv.category}"></td>
+			<td th:text="${lv.reason}"></td>
+			<td th:text="${lv.contactDetail}"></td>			
+			<td th:text="${lv.workdis}"></td>
+			<td th:text="${lv.status}"></td>
+			<td>
+			
+				<form th:action="${'/manager/approve/' + lv.id}" method="post">
+					<button class="btn btn-md btn-warning btn-block" type="Submit">Approve</button>
+				</form>
+				<form th:action="${'/manager/reject/' + lv.id}" method="get">
+					<button class="btn btn-md btn-warning btn-block" type="Submit">Reject</button>
+				</form>
+			</td>
+	<td></td>
+		</tr>
+
+	</table>
+</div>
+</div>
+
+<nav aria-label="Pagination" th:if="${leaves.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-bold">
+        <li class="page-item" th:classappend="${leaves.number eq 0} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/manager/subleave?page={id}(id=${leaves.number lt 2 ? 1 : leaves.number})}"
+               aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${i eq leaves.number + 1} ? 'active'"
+            th:each="i : ${#numbers.sequence( 1, leaves.totalPages, 1)}">
+            <a class="page-link" th:href="@{/manager/subleave?page={id}(id=${i})}" th:text="${i}"
+               th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+        </li>
+        <li class="page-item" th:classappend="${leaves.number + 1 eq leaves.totalPages} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/manager/subleave?page={id}(id=${leaves.number + 2})}"
+               aria-label="Next" title="Next Page" data-toggle="tooltip">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

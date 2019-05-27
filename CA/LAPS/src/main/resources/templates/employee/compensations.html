@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+<head lang="en">
+<title>Compensation List</title>
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper">
+			<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>
+			<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h3 align="center">View Compensation Leave</h3>
+
+		<table class="table table-striped">
+			<tr>
+				<th class="col s2">Compensation ID</th>
+				<th class="col s2">Compensation Date</th>
+				<th class="col s2">Overtime Work Hour</th>
+				<th class="col s2">Overtime Work Reason</th>
+				<th class="col s2">Compensation Status</th>
+			</tr>
+			<tr th:each="cp : ${(compensations)}">
+				<td th:text="${cp.id}">Compensation ID</td>
+				<td th:text="${cp.date}">Compensation Date</td>
+				<td th:text="${cp.hour}">Overtime Work Hour</td>
+				<td th:text="${cp.reason}">Created</td>
+				<td th:text="${cp.status}">Applied</td>
+			</tr>
+		</table>
+	</div>
+
+	<nav aria-label="pagination" th:if="${compensations.totalPages gt 0}">
+		<form th:action="@{/employee/home}" method="get">
+			<button class="btn btn-md btn-success" type="Submit">Back</button>
+		</form>
+		<ul class="pagination justify-content-center font-weight-bold">
+			<li class="page-item" th:classappend="${compensations.number eq 0} ? 'disabled'">
+				<a class="page-link" th:href="@{/employee/compensations?page={id}(id=${compensations.number lt 2 ? 1 : compensations.number})}"
+				aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+					<span aria-hidden="flase">&laquo;</span>
+				</a>
+			</li>
+			<li class="page-item" th:classappend="${i eq compensations.number + 1} ? 'active'"
+			th:each="i : ${#numbers.sequence( 1, compensations.totalPages, 1)}">
+				<a class="page-link" th:href="@{/employee/compensations?page={id}(id=${i})}" 
+				th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+			</li>
+			<li class="page-item" th:classappend="${compensations.number + 1 eq compensations.totalPages} ? 'disabled'">
+				<a class="page-link" th:href="@{/employee/compensations?page={id}(id=${compensations.number + 2})}"
+				aria-label="Next" title="Next Page" data-toggle="tooltip">
+					<span aria-hidden="false">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</body>
+</html>

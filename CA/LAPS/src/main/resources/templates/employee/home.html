@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	
+<head>
+<title>Employee Home</title>
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<style>
+td{
+  background:#ccffff;
+  height:50%;
+  width:50%;
+}
+table {
+  border-spacing: 30px;
+  border: 1px;
+  align:center;
+  text-align:center;
+  height:800px;
+  width:94%;
+}
+a {
+  font-size:40px;
+}
+</style>
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper">
+			<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
+			<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		</div>
+	</nav>
+	
+	<table  >
+		<tr>
+			<td><a href="/employee/create">Create New Leave</a></td>
+			<td><a href="/employee/leavedetail">View Leave List</a></td>		
+		</tr>
+		<tr>
+			<td><a href="/employee/claim">Claim New Compensation</a></td>
+			<td><a href="/employee/compensations">View Compensation Leave</a></td>
+		</tr>	
+	</table>
+	
+</body>
+</html>

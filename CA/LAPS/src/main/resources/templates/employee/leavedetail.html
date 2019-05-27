@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+<head lang="en">
+<title>All Leaves</title>
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper">
+			<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>
+			<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h3>View Leave List</h3>
+		<div>
+			<table class="table table-striped">
+				<tr>
+					<th>Leave ID</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Category</th>
+					<th>Reason</th>
+					<th>Contact Details</th>
+					<th>Work Dissemination</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+				<tr th:each="lv : ${(leaves)}">
+					<td th:text="${lv.id}">ID</td>
+					<td th:text="${lv.startDate}">Start Date</td>
+					<td th:text="${lv.endDate}">End Date</td>
+					<td th:text="${lv.category}"></td>
+					<td th:text="${lv.reason}"></td>
+					<td th:text="${lv.contactDetail}"></td>
+					<td th:text="${lv.workdis}"></td>
+					<td th:text="${lv.status}"></td>
+					<td>
+						<form th:action="${'/employee/edit/' + lv.id}" th:if="${lv.status == 'Applied' || lv.status == 'Updated'}" method="get">
+							<button class="btn btn-xs btn-warning" type="Submit">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+						</form>
+						<form th:action="${'/employee/delete/' + lv.id}" th:if="${lv.status == 'Applied' || lv.status == 'Updated'}" method="post">
+							<button class="btn btn-xs btn-danger" type="Submit">Delete</button>
+						</form>
+						<form th:action="${'/employee/cancel/' + lv.id}" th:if="${lv.status == 'Approved'}" method="post">
+							<button class="btn btn-xs btn-danger" type="Submit">Cancel</button>
+						</form>
+					</td>
+					<td></td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+
+
+
+	<nav aria-label="Pagination" th:if="${leaves.totalPages gt 0}">
+		<form th:action="@{/employee/home}" method="get">
+			<button class="btn btn-md btn-success" type="Submit">Back</button>
+		</form>
+		<ul class="pagination justify-content-center font-weight-bold">
+			<li class="page-item" th:classappend="${leaves.number eq 0} ? 'disabled'">
+				<a class="page-link" th:href="@{/employee/leavedetail?page={id}(id=${leaves.number lt 2 ? 1 : leaves.number})}" 
+				aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+					<span aria-hidden="false">&laquo;</span>
+				</a>
+			</li>
+			<li class="page-item" th:classappend="${i eq leaves.number + 1} ? 'active'"
+				th:each="i : ${#numbers.sequence( 1, leaves.totalPages, 1)}">
+				<a class="page-link" th:href="@{/employee/leavedetail?page={id}(id=${i})}" th:text="${i}"
+				th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+			</li>
+			<li class="page-item" th:classappend="${leaves.number + 1 eq leaves.totalPages} ? 'disabled'">
+				<a class="page-link" th:href="@{/employee/leavedetail?page={id}(id=${leaves.number + 2})}"
+				aria-label="Next" title="Next Page" data-toggle="tooltip"> 
+					<span aria-hidden="false">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Login Page</title>
+
+<link href="../static/css/simple.css" th:href="@{/css/simple.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+</head>
+
+<body>
+
+	<nav>
+		<div class="nav-wrapper">
+			<p class="brand-logo">Welcome To ISS Leave Portal</p>
+		</div>
+	</nav>
+
+	<div class="container" align="center">
+		<form th:action="@{/login}" method="POST" class="form-signin">
+
+			<h3 th:text="'Please enter your account'"><br /></h3>
+			
+			<div class="row">
+				<table>
+					<tr>
+						<td><span th:text="Username："></span></td>
+						<td><input type="text" id="username" name="username" /></td>
+					</tr>
+
+					<tr>
+						<td><span th:text="Password："></span></td>
+						<td><input type="password" id="password" name="password" /></td>
+					</tr>
+					<tr th:if="${param.error}">
+						<td style="color:#FF1C19" colspan="2">Username or Password invalid, please verify</td>
+					</tr>
+				</table>
+			</div>
+			<button class="btn btn-md btn-primary" name="Submit" value="Login" type="Submit" th:text="Login"></button>
+		</form>
+	</div>
+
+</body>
+</html>

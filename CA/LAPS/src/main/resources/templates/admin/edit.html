@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Edit User Detail</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/simple.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper">
+			<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>
+			<a class="brand-right" href="/logout">Logout</a>		
+		</div>
+	</nav>
+	
+	<div class="container">
+
+		<h3 >Edit User</h3>
+
+		<form class="form-horizontal" th:object="${user}" th:action="@{/admin/edit/}+${id}" method="post">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Name:</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{name}"> 
+					<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Email:</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{email}"> 
+					<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Username:</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{username}"> 
+					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">New_Password:</label>
+				<div class="col-sm-10">
+					<input type="password" th:field="*{password}"> 
+					<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">ManagerId:</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{managerid}"> 
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Role:</label> &nbsp;&nbsp;&nbsp;
+				<select th:field="*{roleid}"  class="input-field">
+					<option value="1">Administer</option>
+					<option value="2">Manager</option>
+					<option value="3">Employee</option>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Annual Leave Days:</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{annualleaveday}"> 
+					<label th:if="${#fields.hasErrors('annualleaveday')}" th:errors="*{annualleaveday}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Medical Leave Days:</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{medicalleaveday}"> 
+					<label th:if="${#fields.hasErrors('medicalleaveday')}" th:errors="*{medicalleaveday}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Overtime Hour:</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{overworkhour}"> 
+					<label th:if="${#fields.hasErrors('overworkhour')}" th:errors="*{overworkhour}" class="validation-message"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+			
+				<div>
+					<span th:utext="${successMessage}"></span>
+				</div>
+
+		</form>
+	</div>
+	
+	
+<nav>
+	<form th:action="@{/admin/userdetail}" method="get">
+		<button class="btn btn-md btn-success" type="Submit">Back</button>
+	</form>
+</nav>
+
+</body>
+</html>
