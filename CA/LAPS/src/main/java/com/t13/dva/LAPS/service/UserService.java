@@ -15,4 +15,6 @@ public interface UserService {
 	public User findUserById (int id);
 	public void deleteUser (User user);
 	public List<User> findUsersByManagerid (int managerid);
+	public void editUser(User user);
+	
 }

@@ -47,6 +47,8 @@ public class LeaveServiceImp implements LeaveService{
 	}
 
 	public void saveLeave(Leave leave) {
+		leave.setStartDate(leave.getStartDate().plusDays(1));;
+		leave.setEndDate(leave.getEndDate().plusDays(1));
 		leaveRepository.save(leave);
 	}
 	

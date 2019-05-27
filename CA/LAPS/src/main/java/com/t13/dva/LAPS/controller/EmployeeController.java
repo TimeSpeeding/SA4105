@@ -1,5 +1,6 @@
 package com.t13.dva.LAPS.controller;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +79,7 @@ public class EmployeeController {
 			leave.setUserid(user.getId());
 			leave.setStatus("Applied");
 			leaveService.saveLeave(leave);
-			mailingService.sendNotification(user.getEmail());
+			//mailingService.sendNotification(user.getEmail());
 	        request.setAttribute("successMessage", "Leave has been applied successfully");
 	        model.addAttribute("leaveView", new LeaveView());
 			return "employee/create";
@@ -119,8 +120,8 @@ public class EmployeeController {
 	public String editLeave (@Validated LeaveView leaveView, BindingResult bindingResult, @PathVariable(value = "id") int id) {
 		Leave leave = leaveService.findLeaveById(id);
 		if (leaveView.getStartDate() != "" && leaveView.getEndDate() != "") {
-			leave.setStartDate(LocalDate.parse(leaveView.getStartDate(), dateTimeFormatter).plusDays(1));
-			leave.setEndDate(LocalDate.parse(leaveView.getEndDate(), dateTimeFormatter).plusDays(1));
+			leave.setStartDate(LocalDate.parse(leaveView.getStartDate(), dateTimeFormatter));
+			leave.setEndDate(LocalDate.parse(leaveView.getEndDate(), dateTimeFormatter));
 			if (leave.getStartDate().isBefore(LocalDate.now())) {
 				bindingResult.rejectValue("startDate", "error.leaveView", "* No throwback is allowed!");
 			}
@@ -153,14 +154,14 @@ public class EmployeeController {
 	public String cancelLeave (@PathVariable(value = "id") int id, HttpServletRequest request) {
 		Leave leave = leaveService.findLeaveById(id);
 		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
-		if(leave.getCategory() == "Annual Leave") {
+		if(leave.getCategory().equals("Annual Leave")) {
 			user.setAnnualleaveday(user.getAnnualleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
-		} else if (leave.getCategory() == "Medical Leave") {
+		} else if (leave.getCategory().equals("Medical Leave")) {
 			user.setMedicalleaveday(user.getMedicalleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
-		} else if (leave.getCategory() == "Compensation Leave") {
+		} else if (leave.getCategory().equals("Compensation Leave")) {
 			user.setOverworkhour(user.getOverworkhour() + 4);
 		}
-		userService.saveUser(user);
+		userService.editUser(user);
 		leave.setStatus("Cancelled");
 		leaveService.saveLeave(leave);
 		return "redirect:/employee/leavedetail";

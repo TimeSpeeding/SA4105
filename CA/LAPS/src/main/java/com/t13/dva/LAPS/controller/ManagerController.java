@@ -65,15 +65,15 @@ public class ManagerController {
 	public String approveLeave (@PathVariable(value = "id") int id, HttpServletRequest request) {
 		Leave leave = leaveService.findLeaveById(id);
 		leave.setStatus("Approved");
-		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
-		if(leave.getCategory() == "Annual Leave") {
+		User user = userService.findUserById(leave.getUserid());
+		if(leave.getCategory().equals("Annual Leave")) {
 			user.setAnnualleaveday(user.getAnnualleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
-		} else if (leave.getCategory() == "Medical Leave") {
+		} else if (leave.getCategory().equals("Medical Leave")) {
 			user.setMedicalleaveday(user.getMedicalleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
-		} else if (leave.getCategory() == "Compensation Leave") {
+		} else if (leave.getCategory().equals("Compensation Leave")) {
 			user.setOverworkhour(user.getOverworkhour() - 4);
 		}
-		userService.saveUser(user);
+		userService.editUser(user);
 		leaveService.saveLeave(leave);
 		return "redirect:/manager/subleave";
 	}
@@ -115,10 +115,10 @@ public class ManagerController {
 	@RequestMapping(path = "/manager/approvecom/{id}", method = RequestMethod.POST)
 	public String approveCompensation (@PathVariable(value = "id") int id, HttpServletRequest request) {
 		Compensation compensation = compensationService.findCompensationById(id);
-		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+		User user = userService.findUserById(compensation.getUserid());
 		user.setOverworkhour(user.getOverworkhour() + compensation.getHour());
 		compensation.setStatus("Approved");
-		userService.saveUser(user);
+		userService.editUser(user);
 		compensationService.saveCompensation(compensation);
 		return "redirect:/manager/subcompensation";
 	}

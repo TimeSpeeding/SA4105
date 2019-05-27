@@ -35,6 +35,10 @@ public class UserServiceImp implements UserService{
 		user.setActive(1);
 		userRepository.save(user);
 	}
+	
+	public void editUser(User user) {
+		userRepository.save(user);
+	}
 
 	public Page<User> findAllusers (Pageable pageable) {
 		return userRepository.findAll(pageable);
