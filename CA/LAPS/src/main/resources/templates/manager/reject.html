@@ -21,7 +21,7 @@
 	</ul>
 		
 	<div class="container">
-		<h2>Edit Leave Details</h2>
+		<h3>Reject Reason </h3>
 		<div>
 			<form class="form-horizontal" th:object="${commentView}" th:action="@{/manager/reject/}+${id}" method="post">
 				
@@ -32,7 +32,7 @@
 						<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"	class="validation-message"></label>
 					</div>
 				</div>
-				<div class="form-group">
+				<div align="center">
 					<div class="col-sm-2">
 						<button type="submit" class="btn btn-primary">Save</button>
 					</div>

@@ -11,7 +11,7 @@
 <body>
 	<nav>
 		<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
-		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
 	<ul class="nav nav-pills">
@@ -63,12 +63,9 @@
 		</div>
 	</div>
 
-
-
-	<nav aria-label="Pagination" th:if="${leaves.totalPages gt 0}">
-		<form th:action="@{/employee/home}" method="get">
-			<button class="btn btn-md btn-success" type="Submit">Back</button>
-		</form>
+<div align="center">
+	<form aria-label="Pagination" th:if="${leaves.totalPages gt 0}">
+		
 		<ul class="pagination justify-content-center font-weight-bold">
 			<li class="page-item" th:classappend="${leaves.number eq 0} ? 'disabled'">
 				<a class="page-link" th:href="@{/employee/leavedetail?page={id}(id=${leaves.number lt 2 ? 1 : leaves.number})}" 
@@ -88,7 +85,9 @@
 				</a>
 			</li>
 		</ul>
-	</nav>
+	</form>
+</div>
+
 
 </body>
 </html>

@@ -69,8 +69,8 @@ public class EmployeeController {
 		if (bindingResult.hasErrors()) {
 			return "employee/create";
 		} else {
-			leave.setStartDate(leave.getStartDate().plusDays(1));
-			leave.setEndDate(leave.getEndDate().plusDays(1));
+			leave.setStartDate(leave.getStartDate());
+			leave.setEndDate(leave.getEndDate());
 			leave.setCategory(leaveView.getCategory());
 			leave.setContactDetail(leaveView.getContactDetail());
 			leave.setReason(leaveView.getReason());
@@ -79,7 +79,7 @@ public class EmployeeController {
 			leave.setUserid(user.getId());
 			leave.setStatus("Applied");
 			leaveService.saveLeave(leave);
-			//mailingService.sendNotification(user.getEmail());
+			mailingService.sendNotification(userService.findUserById(user.getManagerid()).getEmail());
 	        request.setAttribute("successMessage", "Leave has been applied successfully");
 	        model.addAttribute("leaveView", new LeaveView());
 			return "employee/create";

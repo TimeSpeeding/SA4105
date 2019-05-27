@@ -46,11 +46,12 @@
 					<td>
 
 						<form th:action="${'/manager/approve/' + lv.id}" method="post">
-							<button class="btn btn-md btn-warning btn-block" type="Submit">Approve</button>
+							<button class="btn btn-xs btn-warning btn-block" type="Submit">Approve</button>
 						</form>
 						<form th:action="${'/manager/reject/' + lv.id}" method="get">
-							<button class="btn btn-md btn-danger btn-block" type="Submit">Reject</button>
+							<button class="btn btn-xs btn-danger btn-block" type="Submit">Reject</button>
 						</form>
+
 					</td>
 					<td></td>
 				</tr>

@@ -11,7 +11,7 @@
 <body>
 	<nav>
 		<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
-		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
 	<ul class="nav nav-pills">
@@ -86,11 +86,6 @@
 		</form>
 	</div>
 
-<nav>
-	<form th:action="@{/employee/home}" method="get">
-		<button class="btn btn-md btn-success" type="Submit">Back</button>
-	</form>
-</nav>
 
 </body>
 </html>

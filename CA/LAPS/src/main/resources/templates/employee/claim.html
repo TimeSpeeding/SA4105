@@ -11,7 +11,7 @@
 <body>
 	<nav>
 		<span class="brand-logo">Hello Employee [[${#httpServletRequest.remoteUser}]]!</span>				
-		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
 	<ul class="nav nav-pills">
@@ -49,8 +49,7 @@
 						<input type="text" class="form-control" th:field="*{reason}" />
 					</div>
 				</div>
-
-				<div class="form-group">
+<div align="center">
 					<div>
 						<button type="submit" class="btn btn-primary">Save</button>
 					</div>
@@ -63,11 +62,7 @@
 		</div>
 	</div>
 
-	<nav>
-		<form th:action="@{/employee/home}" method="get">
-			<button class="btn btn-md btn-success" type="Submit">Back</button>
-		</form>
-	</nav>
+
 
 </body>
 </html>

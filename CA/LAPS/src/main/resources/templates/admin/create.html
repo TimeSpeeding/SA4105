@@ -10,7 +10,7 @@
 <body>
 	<nav>
 		<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>				
-		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
 	<ul class="nav nav-pills">
@@ -18,79 +18,92 @@
 		<li><a href="/admin/userdetail"> User List </a></li>
 	</ul>
 	
-	<div class="container">
+	
+	<div class="container" align="center">
+		<h3>Create New User</h3>
 
-		<h3 >Create New User</h3>
+		<form class="form-horizontal" th:action="@{/admin/create}" th:object="${user}" method="post">
+			<div class="container">
 
-		<form class="form-horizontal" th:object="${user}" th:action="@{/admin/create}" method="post">
+				<table class="form-group">
+					<tr>
+						<td><span th:text="Name：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{name}" class="col-sm-9" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('name')}">
+						<td></td>
+						<td><p style="color: #FF1C19" th:errors="*{name}"
+								class="validation-message" /></td>
+					</tr>
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Name:</label>
-				<div class="col-sm-10">
-					<input type="text" th:field="*{name}"> 
-					<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Email:</label>
-				<div class="col-sm-10">
-					<input type="text" th:field="*{email}"> 
-					<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Username:</label>
-				<div class="col-sm-10">
-					<input type="text" th:field="*{username}"> 
-					<label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-message"></label>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Password:</label>
-				<div class="col-sm-10">
-					<input type="password" th:field="*{password}"> 
-					<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">ManagerId:</label>
-				<div class="col-sm-10">
-					<input type="number" th:field="*{managerid}"> 
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Role:</label> &nbsp;&nbsp;&nbsp;
-				<select th:field="*{roleid}"  class="input-field">
-					<option value="1">Administer</option>
-					<option value="2">Manager</option>
-					<option value="3">Employee</option>
-				</select>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-2">
-					<button type="submit" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-			
-				<div>
-					<span th:utext="${successMessage}"></span>
-				</div>
+					<tr>
+						<td><span th:text="Email：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{email}" class="col-sm-9" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('email')}">
+						<td></td>
+						<td><p style="color: #FF1C19" th:errors="*{email}"
+								class="validation-message" /></td>
+					</tr>
 
+					<tr>
+						<td><span th:text="Username：" class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{username}"
+							class="col-sm-9" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('username')}">
+						<td></td>
+						<td><p style="color: #FF1C19" th:errors="*{username}"
+								class="validation-message" /></td>
+					</tr>
+
+					<tr>
+						<td><span th:text="Password：" class="col-sm-3 control-label"></span></td>
+						<td><input type="password" th:field="*{password}"
+							class="col-sm-9" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td th:if="${#fields.hasErrors('password')}">
+							<p style="color: #FF1C19" th:errors="*{password}"
+								class="validation-message" />
+						</td>
+					</tr>
+
+					<tr>
+						<td><span th:text="'Manager ID：'"
+							class="col-sm-3 control-label"></span></td>
+						<td><input type="text" th:field="*{managerid}"
+							class="col-sm-9" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td th:if="${#fields.hasErrors('managerid')}">
+							<p style="color: #FF1C19" th:errors="*{managerid}"
+								class="validation-message" />
+						</td>
+					</tr>
+
+					<tr>
+						<td><span th:text="Role：" class="col-sm-3 control-label"></span></td>
+						<td><select th:field="*{roleid}" class="col-sm-9">
+								<option value="1">Administrator</option>
+								<option value="2">Manager</option>
+								<option value="3">Employee</option>
+						</select></td>
+						<td></td>
+					</tr>
+
+				</table>
+				<br />
+			</div>
+			<button type="submit" class="btn btn-md btn-primary">Register User</button>
 		</form>
+
+		<span th:utext="${successMessage}"></span>
 	</div>
-	
-	
-<nav>
-	<form th:action="@{/admin/home}" method="get">
-		<button class="btn btn-md btn-success" type="Submit">Back</button>
-	</form>
-</nav>
+
+
 
 </body>
 </html>

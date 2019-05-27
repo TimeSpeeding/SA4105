@@ -39,10 +39,10 @@
 					<td th:text="${cp.status}">Status</td>
 					<td>
 						<form th:action="${'/manager/approvecom/' + cp.id}" method="post">
-							<button class="btn btn-md btn-warning btn-block" type="Submit">Approve</button>
+							<button class="btn btn-xs btn-warning btn-block" type="Submit">Approve</button>
 						</form>
 						<form th:action="${'/manager/rejectcom/' + cp.id}" method="post">
-							<button class="btn btn-md btn-danger btn-block" type="Submit">Reject</button>
+							<button class="btn btn-xs btn-danger btn-block" type="Submit">Reject</button>
 						</form>
 					</td>
 				</tr>

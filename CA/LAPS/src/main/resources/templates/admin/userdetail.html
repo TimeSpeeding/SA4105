@@ -11,7 +11,7 @@
 <body>
 	<nav>
 		<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>				
-		<a style="float:right; font-size:20px" href="/" th:action="@{/logout}">Logout</a>
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
 	</nav>
 	
 	<ul class="nav nav-pills">
@@ -51,42 +51,46 @@
 			<td th:text="${u.overworkhour / 4}"></td>
 			<td>			
 				<form th:action="${'/admin/edit/' + u.id}" method="get">
-					<button class="btn btn-md btn-warning btn-block" type="Submit">Edit</button>
+					<button class="btn btn-xs btn-warning btn-block" type="Submit">Edit</button>
 				</form>
 				<form th:action="${'/admin/delete/' + u.id}" method="post">
-					<button class="btn btn-md btn-danger btn-block" type="Submit">Delete</button>
+					<button class="btn btn-xs btn-danger btn-block" type="Submit">Delete</button>
 				</form>
 			</td>
-	<td></td>
+			<td></td>
 		</tr>
 
-	</table>
-</div>
-</div>
+		</table>
+	</div>
 
-<nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
-    <ul class="pagination justify-content-center font-weight-bold">
-        <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
-            <a class="page-link"
-               th:href="@{/admin/userdetail?page={id}(id=${users.number lt 2 ? 1 : users.number})}"
-               aria-label="Previous" title="Previous Page" data-toggle="tooltip">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item" th:classappend="${i eq users.number + 1} ? 'active'"
-            th:each="i : ${#numbers.sequence( 1, users.totalPages, 1)}">
-            <a class="page-link" th:href="@{/admin/userdetail?page={id}(id=${i})}" th:text="${i}"
-               th:title="${'Page '+ i}" data-toggle="tooltip"></a>
-        </li>
-        <li class="page-item" th:classappend="${users.number + 1 eq users.totalPages} ? 'disabled'">
-            <a class="page-link"
-               th:href="@{/admin/userdetail?page={id}(id=${users.number + 2})}"
-               aria-label="Next" title="Next Page" data-toggle="tooltip">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-
+	<div align="center">
+		<form aria-label="Pagination" th:if="${users.totalPages gt 0}">
+			<ul class="pagination justify-content-center font-weight-bold">
+				<li class="page-item"
+					th:classappend="${users.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/admin/userdetail?page={id}(id=${users.number lt 2 ? 1 : users.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq users.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, users.totalPages, 1)}"><a
+					class="page-link" th:href="@{/admin/userdetail?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${users.number + 1 eq users.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/admin/userdetail?page={id}(id=${users.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</form>
+	</div>
+	</div>
 </body>
 </html>
+
