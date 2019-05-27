@@ -21,7 +21,9 @@ public class AdminController {
 	private UserService userService;
 
 	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-	public String homePage() {
+	public String homePage(HttpServletRequest request, Model model) {
+		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+		model.addAttribute("user", user);
 		return "admin/home";
 	}
 

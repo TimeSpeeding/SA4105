@@ -41,7 +41,9 @@ public class ManagerController {
 	private CalculateWorkDays calculateWorkDays = new CalculateWorkDays();
 
 	@RequestMapping(value = "/manager/home", method = RequestMethod.GET)
-	public String home() {
+	public String homePage(HttpServletRequest request, Model model) {
+		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+		model.addAttribute("user", user);
 		return "manager/home";
 	}
 	
