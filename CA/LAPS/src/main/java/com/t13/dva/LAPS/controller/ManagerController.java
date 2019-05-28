@@ -1,5 +1,7 @@
 package com.t13.dva.LAPS.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,9 +23,11 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.t13.dva.LAPS.model.CommentView;
 import com.t13.dva.LAPS.model.Compensation;
+import com.t13.dva.LAPS.model.Holiday;
 import com.t13.dva.LAPS.model.Leave;
 import com.t13.dva.LAPS.model.User;
 import com.t13.dva.LAPS.service.CompensationService;
+import com.t13.dva.LAPS.service.HolidayService;
 import com.t13.dva.LAPS.service.LeaveService;
 import com.t13.dva.LAPS.service.UserService;
 import com.t13.dva.LAPS.util.CalculateWorkDays;
@@ -35,6 +39,8 @@ public class ManagerController {
 	private LeaveService leaveService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private HolidayService holidayService;
 	@Autowired
 	private CompensationService compensationService;
 
@@ -66,10 +72,11 @@ public class ManagerController {
 		Leave leave = leaveService.findLeaveById(id);
 		leave.setStatus("Approved");
 		User user = userService.findUserById(leave.getUserid());
+		List<Holiday> holidays = holidayService.findAllHolidays();
 		if(leave.getCategory().equals("Annual Leave")) {
-			user.setAnnualleaveday(user.getAnnualleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
+			user.setAnnualleaveday(user.getAnnualleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays));
 		} else if (leave.getCategory().equals("Medical Leave")) {
-			user.setMedicalleaveday(user.getMedicalleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
+			user.setMedicalleaveday(user.getMedicalleaveday() - calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays));
 		} else if (leave.getCategory().equals("Compensation Leave")) {
 			user.setOverworkhour(user.getOverworkhour() - 4);
 		}

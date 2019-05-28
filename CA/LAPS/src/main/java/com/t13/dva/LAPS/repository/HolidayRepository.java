@@ -8,4 +8,6 @@ import com.t13.dva.LAPS.model.Holiday;
 @Repository
 public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
 
+	Holiday findByDate(String date);
+
 }

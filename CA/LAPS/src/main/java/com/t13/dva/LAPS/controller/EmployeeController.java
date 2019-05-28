@@ -2,6 +2,8 @@ package com.t13.dva.LAPS.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.t13.dva.LAPS.model.Compensation;
+import com.t13.dva.LAPS.model.Holiday;
 import com.t13.dva.LAPS.model.Leave;
 import com.t13.dva.LAPS.model.LeaveView;
 import com.t13.dva.LAPS.model.User;
 import com.t13.dva.LAPS.service.CompensationService;
+import com.t13.dva.LAPS.service.HolidayService;
 import com.t13.dva.LAPS.service.LeaveService;
 import com.t13.dva.LAPS.service.MailingService;
 import com.t13.dva.LAPS.service.UserService;
@@ -30,6 +34,8 @@ public class EmployeeController {
 	private LeaveService leaveService;	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private HolidayService holidayService;
     @Autowired
 	private MailingService mailingService;	
 	@Autowired
@@ -153,10 +159,11 @@ public class EmployeeController {
 	public String cancelLeave (@PathVariable(value = "id") int id, HttpServletRequest request) {
 		Leave leave = leaveService.findLeaveById(id);
 		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
+		List<Holiday> holidays = holidayService.findAllHolidays();
 		if(leave.getCategory().equals("Annual Leave")) {
-			user.setAnnualleaveday(user.getAnnualleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
+			user.setAnnualleaveday(user.getAnnualleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays));
 		} else if (leave.getCategory().equals("Medical Leave")) {
-			user.setMedicalleaveday(user.getMedicalleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate()));
+			user.setMedicalleaveday(user.getMedicalleaveday() + calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays));
 		} else if (leave.getCategory().equals("Compensation Leave")) {
 			user.setOverworkhour(user.getOverworkhour() + 4);
 		}
