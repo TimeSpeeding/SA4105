@@ -61,6 +61,7 @@ public class EmployeeController {
 	@RequestMapping(path = "/employee/create", method = RequestMethod.POST)
 	public String createNewLeave (@Validated LeaveView leaveView, BindingResult bindingResult, Model model, HttpServletRequest request) {
 		Leave leave = new Leave();
+		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
 		if (leaveView.getStartDate() != "" && leaveView.getEndDate() != "") {
 			leave.setStartDate(LocalDate.parse(leaveView.getStartDate(), dateTimeFormatter));
 			leave.setEndDate(LocalDate.parse(leaveView.getEndDate(), dateTimeFormatter));
@@ -70,6 +71,21 @@ public class EmployeeController {
 			if (leave.getEndDate().isBefore(leave.getStartDate())) {
 				bindingResult.rejectValue("endDate", "error.leaveView", "* We do not encourage time travel!");
 			}
+			List<Holiday> holidays = holidayService.findAllHolidays();
+			if(leaveView.getCategory().equals("Annual Leave")) {
+				if(calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays) > user.getAnnualleaveday()) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
+			} else if (leaveView.getCategory().equals("Medical Leave")) {
+				if(calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays) > user.getMedicalleaveday()) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
+			} else if (leaveView.getCategory().equals("Compensation Leave")) {
+				if(user.getOverworkhour() < 4) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
+			}
+			
 		}		
 		if (bindingResult.hasErrors()) {
 			return "employee/create";
@@ -80,7 +96,6 @@ public class EmployeeController {
 			leave.setContactDetail(leaveView.getContactDetail());
 			leave.setReason(leaveView.getReason());
 			leave.setWorkdis(leaveView.getWorkdis());
-			User user = userService.findUserByUsername(request.getUserPrincipal().getName());
 			leave.setUserid(user.getId());
 			leave.setStatus("Applied");
 			leaveService.saveLeave(leave);
@@ -122,8 +137,9 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(path = "/employee/edit/{id}", method = RequestMethod.POST)
-	public String editLeave (@Validated LeaveView leaveView, BindingResult bindingResult, @PathVariable(value = "id") int id) {
+	public String editLeave (@Validated LeaveView leaveView, BindingResult bindingResult, @PathVariable(value = "id") int id, HttpServletRequest request) {
 		Leave leave = leaveService.findLeaveById(id);
+		User user = userService.findUserByUsername(request.getUserPrincipal().getName());
 		if (leaveView.getStartDate() != "" && leaveView.getEndDate() != "") {
 			leave.setStartDate(LocalDate.parse(leaveView.getStartDate(), dateTimeFormatter));
 			leave.setEndDate(LocalDate.parse(leaveView.getEndDate(), dateTimeFormatter));
@@ -132,6 +148,21 @@ public class EmployeeController {
 			}
 			if (leave.getEndDate().isBefore(leave.getStartDate())) {
 				bindingResult.rejectValue("endDate", "error.leaveView", "* We do not encourage time travel!");
+			}
+
+			List<Holiday> holidays = holidayService.findAllHolidays();
+			if(leaveView.getCategory().equals("Annual Leave")) {
+				if(calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays) > user.getAnnualleaveday()) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
+			} else if (leaveView.getCategory().equals("Medical Leave")) {
+				if(calculateWorkDays.getWorkDays(leave.getStartDate(), leave.getEndDate(), holidays) > user.getMedicalleaveday()) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
+			} else if (leaveView.getCategory().equals("Compensation Leave")) {
+				if(user.getOverworkhour() < 4) {
+					bindingResult.rejectValue("endDate", "error.leaveView", "* Exceeded Leave Entitlement! ");
+				}
 			}
 		}
 		if (bindingResult.hasErrors()) {

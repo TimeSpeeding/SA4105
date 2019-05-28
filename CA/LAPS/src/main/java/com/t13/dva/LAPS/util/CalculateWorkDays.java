@@ -19,7 +19,6 @@ public class CalculateWorkDays {
 		for (int i = 0; i < days; i++) {
 			if (today.getDayOfWeek() != DayOfWeek.SATURDAY && today.getDayOfWeek() != DayOfWeek.SUNDAY) {
 				workdays++;
-			} else {
 				for (Holiday h : holidays) {
 					if (h.getDate().equals(today.format(dateTimeFormatter))) {
 						workdays--;
