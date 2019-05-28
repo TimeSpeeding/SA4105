@@ -15,15 +15,16 @@
 	</nav>
 	
 	<ul class="nav nav-pills">
+		<li><a href="/employee/home"> Home </a></li>
 		<li><a href="/employee/create"> Create New Leave </a></li>
 		<li><a href="/employee/leavedetail"> My Leave List </a></li>
 		<li><a href="/employee/claim"> Claim New Compensation </a></li>
 		<li><a href="/employee/compensations"> My Compensation List </a></li>
 	</ul>
 
-	<h3>Claim a Compensation Leave</h3>
 
 	<div class="container">
+	<h3>Claim a Compensation Leave</h3>
 		<div>
 			<form class="form-horizontal" th:object="${compensation}" th:action="@{/employee/claim}" method="post">
 

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Holiday</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/simple.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+	<nav>
+		<span class="brand-logo">Hello Administer [[${#httpServletRequest.remoteUser}]]!</span>				
+		<a class="brand-right" href="/" th:action="@{/logout}">Logout</a>
+	</nav>
+	
+	<ul class="nav nav-pills">
+		<li><a href="/admin/home"> Home </a></li>
+		<li><a href="/admin/create"> Create New User </a></li>
+		<li><a href="/admin/userdetail"> User List </a></li>
+		<li><a href="/admin/holiday"> Holiday </a></li>
+	</ul>
+	
+	
+	<div class="container" align="center">
+		<h3>New Holiday</h3>
+		<form class="form-horizontal" th:action="@{/admin/holiday}" th:object="${holiday}" method="post">
+			<div class="container">
+				<table class="form-group">
+					<tr>
+						<td><span th:text="Date：" class="col-sm-3 control-label"></span></td>
+						<td><input type="date" th:field="*{date}" class="col-sm-9" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('date')}">
+						<td></td>
+						<td><p style="color: #FF1C19" th:errors="*{date}" class="validation-message" /></td>
+					</tr>
+				</table>
+				<br />
+			</div>
+			<button type="submit" class="btn btn-md btn-primary">Save</button>
+		</form>
+		<span th:utext="${successMessage}"></span>
+	</div>
+	
+	<div class="container">
+		<h3>Holiday List</h3>
+<div>
+	<table class="table table-striped">
+		<tr>
+			<th>Holiday ID</th>
+			<th>Holiday Date</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="h : ${(holidays)}">
+			<td th:text="${h.id}">ID</td>
+			<td th:text="${h.date}"></td>
+			<td>
+				<form th:action="${'/admin/deleteholiday/' + h.id}" method="post">
+					<button class="btn btn-xs btn-danger btn-block" type="Submit">Delete</button>
+				</form>
+			</td>
+			<td></td>
+		</tr>
+
+		</table>
+	</div>
+
+	<div align="center">
+		<form aria-label="Pagination" th:if="${holidays.totalPages gt 0}">
+			<ul class="pagination justify-content-center font-weight-bold">
+				<li class="page-item"
+					th:classappend="${holidays.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/admin/holiday?page={id}(id=${holidays.number lt 2 ? 1 : holidays.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq holidays.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, holidays.totalPages, 1)}"><a
+					class="page-link" th:href="@{/admin/holiday?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${holidays.number + 1 eq holidays.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/admin/holiday?page={id}(id=${holidays.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</form>
+	</div>
+	</div>
+	
+	
+
+
+
+</body>
+</html>

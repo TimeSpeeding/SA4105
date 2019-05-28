@@ -19,10 +19,8 @@ public class MailingService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(Email);
 		mail.setFrom("lapsystemteam@gmail.com");
-		mail.setSubject("New Leave Form is Revieved");
-		mail.setText("Login to see the leave request: http://localhost:8080/login");
+		mail.setSubject("New Leave Form is Received");
+		mail.setText("Hi Manager, please login to see the leave request: http://localhost:8080/login");
 		javaMailSender.send(mail);
 	}
-	
-
 }

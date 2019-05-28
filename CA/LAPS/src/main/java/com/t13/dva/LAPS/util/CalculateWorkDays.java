@@ -9,8 +9,8 @@ public class CalculateWorkDays {
 		
 		long days = endDate.toEpochDay() - startDate.toEpochDay() + 1;
 		int workdays = (int) days / 7 * 5;
+		LocalDate today = startDate;
 		for (int i = 0; i < days % 7; i++) {
-			LocalDate today = startDate;
 			if (today.getDayOfWeek() != DayOfWeek.SATURDAY && today.getDayOfWeek() != DayOfWeek.SUNDAY) {
 				workdays++;
 			}

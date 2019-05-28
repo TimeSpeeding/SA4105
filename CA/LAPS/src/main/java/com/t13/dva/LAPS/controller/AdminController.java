@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.t13.dva.LAPS.model.Holiday;
 import com.t13.dva.LAPS.model.User;
+import com.t13.dva.LAPS.service.HolidayService;
 import com.t13.dva.LAPS.service.UserService;
 
 @Controller
@@ -19,6 +21,9 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private HolidayService holidayService;
 
 	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
 	public String homePage(HttpServletRequest request, Model model) {
@@ -95,5 +100,36 @@ public class AdminController {
 		return "redirect:/admin/userdetail";
 	}
 	
+	@RequestMapping(value = "/admin/holiday", method = RequestMethod.GET)
+	public String HolidayPage (HttpServletRequest request, Model model) {
+		int page = 0, size = 5;		
+		if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
+			page = Integer.parseInt(request.getParameter("page")) - 1;
+		}		
+		if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
+			size = Integer.parseInt(request.getParameter("size"));
+		}
+		model.addAttribute("holidays", holidayService.findAllHolidays(PageRequest.of(page, size)));
+		model.addAttribute("holiday", new Holiday());
+		return "admin/holiday";
+	}
+	
+	@RequestMapping(value = "/admin/holiday", method = RequestMethod.POST)
+	public String createNewHoliday(@Validated Holiday holiday, BindingResult bindingResult, Model model, HttpServletRequest request) {
+	    if (bindingResult.hasErrors()) {
+			return "redirect:/admin/holiday";
+	    } else {
+	    	holidayService.saveHoliday(holiday);
+	        model.addAttribute("holiday", new Holiday());
+			return "redirect:/admin/holiday";
+        }
+    }
+	
+	@RequestMapping(path = "/admin/deleteholiday/{id}", method = RequestMethod.POST)
+	public String deleteHoliday (@PathVariable(value = "id") int id) {
+		Holiday holiday = holidayService.findHolidayById(id);
+		holidayService.deleteHoliday(holiday);
+		return "redirect:/admin/holiday";
+	}
 	
 }
